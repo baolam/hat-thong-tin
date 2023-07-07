@@ -6,7 +6,7 @@ from torch import Tensor
 
 class Atom(nn.Module):
     def __init__(self):
-        super(self).__init__()
+        super().__init__()
         # Id của hạt
         self.id = uuid4()
         # Tập các biểu hiện của hạt (lưu trữ id)

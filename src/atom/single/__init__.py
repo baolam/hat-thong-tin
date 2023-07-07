@@ -1,3 +1,4 @@
+from torch import Tensor
 from .. import Atom
 
 
@@ -9,7 +10,7 @@ class SingeCore(Atom):
         assert isinstance(beta, int)
         assert isinstance(hidden, int)
 
-        assert gamma == beta, "Số chiều biểu diễn và số chiều đại diện phải khác nhau"
+        assert gamma != beta, "Số chiều biểu diễn và số chiều đại diện phải khác nhau"
         self.gamma = gamma
         self.hidden = hidden
         self.beta = beta
@@ -18,4 +19,7 @@ class SingeCore(Atom):
         print("Xây dựng hàm này :>")
 
     def learning_mode(self, mode : str):
+        pass
+
+    def forward(self, x : Tensor, is_existed : bool):
         pass

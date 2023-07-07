@@ -10,11 +10,13 @@ class StandardUnit(SingeCore):
         super().__init__(gamma, beta, hidden)
 
         # Đại diện tính toán của đơn vị
-        self.avatar = nn.Parameter(rand(gamma))
-        self.avt_dim = nn.Linear(gamma, hidden)
+        self.avatar = nn.Parameter(rand(gamma), requires_grad=True)
+        self.avt = nn.Linear(gamma, hidden)
+        self.act1 = nn.ReLU()
 
         # Trích xuất đặc trưng
         self.extract = nn.Linear(beta, hidden)
+        self.act2 = nn.ReLU()
         # Chuẩn hóa khi kết hợp đại diện với chiều biểu hiện
         self.norm = nn.LayerNorm(hidden)
 
@@ -23,23 +25,33 @@ class StandardUnit(SingeCore):
 
         # Xác định tính chất
         self.exist = nn.Linear(beta, 1)
-        
-    def forward(self, x : Tensor):
+    
+    def avt_run(self) -> Tensor:
         a = self.avatar
-        a = self.avt_dim(a)
-        a = relu(a)
+        a = self.avt(a)
+        a = self.act1(a)
 
-        x = self.extract(x)
-        x = relu(x)
+        return a
 
-        x *= a
-        x = self.norm(x)
+    def forward(self, x : Tensor, is_existed : bool = True):
+        z = self.extract(x)
+        z = self.act2(z)
 
-        x = self.expression(x)
-        e = self.exist(x)
-        e = sigmoid(e)
+        a = self.avt_run()
+        
+        # Tránh phép toán +=
+        k = z + a
+        k = self.norm(k)
+        k = self.expression(k)
+        
+        if is_existed:
+            # Xác định tính chất
+            e = self.exist(k)
+            e = sigmoid(e)
 
-        return x, e
+            return k, e
+
+        return k
     
     def best_kunit(self, x : Tensor, knowledge : KnowledgeGraph, threshold : float = 0.5):
         if x.size()[0] != 1:

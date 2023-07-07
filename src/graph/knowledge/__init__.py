@@ -1,9 +1,9 @@
 from typing import Dict
 
-from torch import nn
+from .. import Graph
 from .unit import Unit
 
-class KnowledgeGraph(nn.Module):
+class KnowledgeGraph(Graph):
     def __init__(self) -> None:
         super().__init__()
 
