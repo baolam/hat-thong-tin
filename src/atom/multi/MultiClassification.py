@@ -1,7 +1,7 @@
 from typing import Dict, List
 from torch import Tensor, nn
 
-from src.atom.single import SingeCore
+from ..single import SingeCore
 from . import MultiCores
 
 

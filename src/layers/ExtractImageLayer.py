@@ -18,12 +18,3 @@ class PatchEmbedding(nn.Module):
         x = self.norm(x)
         
         return x
-    
-class DepthWiseSeparable(nn.Module):
-    pass
-
-class ExtractImageLayer(nn.Module):
-    def __init__(self):
-        super().__init__()
-
-        self.depthwise = nn.Dep
