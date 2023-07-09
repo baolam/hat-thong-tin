@@ -1,14 +1,15 @@
-from typing import Tuple
+from typing import List
 from torch import Tensor, nn
 from torch import rand
 from . import SingeCore
 
 
 class WordUnit(SingeCore):
-    def __init__(self, gamma: int, beta: int, hidden: int, word : str):
+    def __init__(self, gamma: int, beta: int, hidden: int, 
+        word : str):
         super().__init__(gamma, beta, hidden)
         self.id = word
-
+        
         self.embedding = nn.Parameter(rand(gamma), requires_grad = True)
         self.extract = nn.Linear(beta, hidden)
         self.activate1 = nn.ReLU()

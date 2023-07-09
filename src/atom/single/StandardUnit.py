@@ -2,7 +2,7 @@ from . import SingeCore
 from ...graph.knowledge import KnowledgeGraph
 from torch import nn
 from torch import rand, Tensor
-from torch import relu, sigmoid
+from torch import sigmoid
 
 
 class StandardUnit(SingeCore):
