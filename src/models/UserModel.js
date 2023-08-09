@@ -26,6 +26,10 @@ const UserModel = Database.define(
     avatar : {
         type : sequelize.TEXT,
         comment : "Đường dẫn tới avatar người dùng"
+    },
+    timing : {
+        type : sequelize.INTEGER,
+        defaultValue : 0
     }
 });
 
@@ -42,6 +46,12 @@ class User {
         }).then(vl => vl.toJSON());
     }
 
+    async onGetDefaultUser()
+    {
+        return UserModel.findAll()
+            .then(vls => vls[0])
+            .then(vl => vl.toJSON());
+    }
     /**
      * 
      * @param {*} name 

@@ -1,4 +1,4 @@
-const { createLogger, format } = require("winston");
+const { createLogger, format, transports } = require("winston");
 const { combine, timestamp, printf, errors, json } = format;
 const { HttpLogger, DailyLogger } = require("./#config_logger");
 
@@ -28,6 +28,7 @@ const logger = createLogger({
         // prettyPrint()
     ),
     transports : [
+        new transports.Console(),
         DailyLogger, HttpLogger
     ]
 });

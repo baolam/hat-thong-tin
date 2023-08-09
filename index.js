@@ -10,6 +10,7 @@ const app = express();
 const server = http.createServer(app);
 new (require("./src/socket.io/Socket"))(server);
 
+const { GlobalEvents, TYPE } = require("./src/config/global_event");
 const PORT = process.env.PORT || 3000;
 const ADDRESS = ip.address();
 
@@ -31,7 +32,10 @@ server.listen(PORT, () => {
     .then(() => {
         info(`Connect to ${process.env.DATABASE} successfully!`);
         require("./src/models/initalize")()
-        .then(res => info(res))
+        .then(res => {
+            info(res);
+            GlobalEvents.emit(TYPE.GET_DEFAULT_USER);
+        })
         .catch(err => {
             error(`Failed to synchronize table which error's content is '${err}'`);
             process.exit(1);
